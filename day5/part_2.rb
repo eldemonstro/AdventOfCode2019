@@ -1,40 +1,131 @@
 text = File.open(__dir__ + '/input.txt').read
 
-input_frozen = text.chomp.split(',').map(&:to_i).freeze
+input = text.chomp.split(',').map(&:to_i)
 
-nouns = (0..99)
-verbs = (0..99)
+needle_position = 0
+halt = false
 
-stop = false
-
-nouns.each do |noun|
-  verbs.each do |verb|
-    input = input_frozen.dup
-    input[1] = noun
-    input[2] = verb
-
-    input.each_slice(4) do |op_code, pos_x, pos_y, pos_result|
-      x = input[pos_x]
-      y = input[pos_y]
-
-      if op_code == 99
-        break
-      elsif op_code == 1
-        input[pos_result] = x + y
-      elsif op_code == 2
-        input[pos_result] = x * y
-      end
-    end
-
-    if input[0] == 19690720
-      puts "noun #{noun}, verb #{verb}, result #{100 * noun + verb}"
-
-      stop = true
-    end
+until halt
+  if input[needle_position] == 99
+    halt = true
+    next
   end
 
-  if stop
-    break
+  # ABCDE
+  # DE = OP_CODE - 2 DIGITS
+  # C  = First parameter mode
+  # B  = Second parameter mode
+  # A  = Third parameter mode
+  parameter_hash = input[needle_position].digits.reverse
+  op_code        = parameter_hash[-2, 2]&.join || parameter_hash[-1]
+  mode_1         = parameter_hash[-3]
+  mode_2         = parameter_hash[-4]
+  mode_3         = parameter_hash[-5]
+
+  op_code = op_code.to_i
+
+  if op_code == 1
+    x = if !mode_1 || mode_1 == 0
+          input[input[needle_position + 1]]
+        else
+          input[needle_position + 1]
+        end
+    y = if !mode_2 || mode_2 == 0
+          input[input[needle_position + 2]]
+        else
+          input[needle_position + 2]
+        end
+    input[input[needle_position + 3]] = x + y
+    needle_position += 4
+  elsif op_code == 2
+    x = if !mode_1 || mode_1 == 0
+          input[input[needle_position + 1]]
+        else
+          input[needle_position + 1]
+        end
+    y = if !mode_2 || mode_2 == 0
+          input[input[needle_position + 2]]
+        else
+          input[needle_position + 2]
+        end
+    input[input[needle_position + 3]] = x * y
+    needle_position += 4
+  elsif op_code == 3
+    puts 'Insert code'
+    x = gets.chomp.to_i
+    input[input[needle_position + 1]] = x
+    needle_position += 2
+  elsif op_code == 4
+    x = input[input[needle_position + 1]]
+    puts x
+    needle_position += 2
+  elsif op_code == 5
+    x = if !mode_1 || mode_1 == 0
+          input[input[needle_position + 1]]
+        else
+          input[needle_position + 1]
+        end
+    y = if !mode_2 || mode_2 == 0
+          input[input[needle_position + 2]]
+        else
+          input[needle_position + 2]
+        end
+    if x != 0
+      needle_position = y
+    else
+      needle_position += 3
+    end
+  elsif op_code == 6
+    x = if !mode_1 || mode_1 == 0
+          input[input[needle_position + 1]]
+        else
+          input[needle_position + 1]
+        end
+    y = if !mode_2 || mode_2 == 0
+          input[input[needle_position + 2]]
+        else
+          input[needle_position + 2]
+        end
+    if x == 0
+      needle_position = y
+    else
+      needle_position += 3
+    end
+  elsif op_code == 7
+    x = if !mode_1 || mode_1 == 0
+          input[input[needle_position + 1]]
+        else
+          input[needle_position + 1]
+        end
+    y = if !mode_2 || mode_2 == 0
+          input[input[needle_position + 2]]
+        else
+          input[needle_position + 2]
+        end
+    if x < y
+      input[input[needle_position + 3]] = 1
+    else
+      input[input[needle_position + 3]] = 0
+    end
+    needle_position += 4
+  elsif op_code == 8
+    x = if !mode_1 || mode_1 == 0
+          input[input[needle_position + 1]]
+        else
+          input[needle_position + 1]
+        end
+    y = if !mode_2 || mode_2 == 0
+          input[input[needle_position + 2]]
+        else
+          input[needle_position + 2]
+        end
+    if x == y
+      input[input[needle_position + 3]] = 1
+    else
+      input[input[needle_position + 3]] = 0
+    end
+    needle_position += 4
   end
 end
 
+puts 'halt'

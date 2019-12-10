@@ -1,14 +1,13 @@
 require 'pry'
 
-# text = File.open(__dir__ + '/input.txt').read
-text = '3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5'
+text = File.open(__dir__ + '/input.txt').read
 
 input_freeze = text.chomp.split(',').map(&:to_i).freeze
 
 thrusters_calc = []
 
 def run_int_code(input, signal, needle_position)
-  until false
+  while true
     if input[needle_position] == 99
       return [input, nil, needle_position]
     end
@@ -53,7 +52,8 @@ def run_int_code(input, signal, needle_position)
       input[input[needle_position + 3]] = x * y
       needle_position += 4
     elsif op_code == 3
-      x = signal.shift
+      x = signal[0]
+      signal.shift
       input[input[needle_position + 1]] = x
       needle_position += 2
     elsif op_code == 4
@@ -62,7 +62,6 @@ def run_int_code(input, signal, needle_position)
           else
             input[needle_position + 1]
           end
-      puts x
       needle_position += 2
       return [input, x, needle_position]
     elsif op_code == 5
@@ -136,30 +135,30 @@ def run_int_code(input, signal, needle_position)
 end
 
 
-signals = [9, 8, 7, 6, 5].freeze
+[9, 8, 7, 6, 5].permutation.each do |signals|
+  needles = [0] * signals.length
+  last_thrusters = [0] * signals.length
 
-needles = [0, 0, 0, 0, 0]
-last_thrusters = [0, 0, 0, 0, 0]
+  values = signals.map { |signal| [signal] }
+  values[0].append(0)
 
-values = signals.map { |signal| [signal] }
-values[0].push(0)
+  inputs = [input_freeze.dup] * signals.length
 
-inputs = [input_freeze.dup] * signals.length
+  done = false
 
-done = false
+  while !done
+    signals.length.times do |i|
+      inputs[i], value, needle = run_int_code(inputs[i].dup, values[i], needles[i])
+      if !value
+        done = true
+        thrusters_calc.push(last_thrusters.last)
+        break
+      end
 
-while !done
-  signals.length.times do |i|
-    inputs[i], value, needle = run_int_code(inputs[i], values[i], needles[i])
-    if !value
-      done = true
-      thrusters_calc.push(last_thrusters.last)
-      break
+      needles[i] = needle
+      last_thrusters[i] = value
+      values[(i + 1) % values.length].append(value)
     end
-
-    needles[i] = needle
-    last_thrusters[i] = value
-    values[(i + 1) % values.length].append(value)
   end
 end
 

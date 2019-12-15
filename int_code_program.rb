@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module IntCodeParser
   ADD = 1
   MULT = 2
@@ -22,12 +24,12 @@ module IntCodeParser
     LESS => :less,
     EQUALS => :equals,
     HALT => :halt
-  }
+  }.freeze
 
   PARAMETER_MODES = {
     POSITION => :position,
     IMMEDIATE => :immediate
-  }
+  }.freeze
 
   def input_mode_analyzer(input_mode)
     parameter_hash = input_mode.digits.reverse
@@ -60,7 +62,5 @@ class Program
     send(op_code[0], op_code.slice(1, op_code.length))
   end
 
-  def in(params)
-
-  end
+  def in(params); end
 end

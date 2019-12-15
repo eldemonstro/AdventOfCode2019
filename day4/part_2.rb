@@ -1,9 +1,10 @@
-input = "168630-718098".split('-').map(&:to_i)
+# frozen_string_literal: true
+
+input = '168630-718098'.split('-').map(&:to_i)
 
 count = 0
 
 (input[0]..input[1]).each do |password|
-
   duplicates = Hash.new(0)
 
   password.digits.each do |digit|
@@ -19,7 +20,7 @@ count = 0
     ]
   end
 
-  duplicates.each do |key, value|
+  duplicates.each do |_key, value|
     validation[0] = false if value > 2
     if value == 2
       validation[0] = true

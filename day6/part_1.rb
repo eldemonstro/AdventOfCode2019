@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Planet
   attr_reader :name
   attr_accessor :children, :parent
@@ -26,12 +28,8 @@ planets = {}
 
 input.each do |orbit|
   planet_a, planet_b = orbit.split(')')
-  if !planets[planet_a]
-    planets[planet_a] = Planet.new(planet_a)
-  end
-  if !planets[planet_b]
-    planets[planet_b] = Planet.new(planet_b)
-  end
+  planets[planet_a] = Planet.new(planet_a) unless planets[planet_a]
+  planets[planet_b] = Planet.new(planet_b) unless planets[planet_b]
 
   planets[planet_b].parent = planets[planet_a]
   planets[planet_a].children.push(planets[planet_b])

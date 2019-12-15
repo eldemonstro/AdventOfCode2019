@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 text = File.open(__dir__ + '/input.txt').read
 
 input_frozen = text.chomp.split(',').map(&:to_i).freeze
@@ -26,15 +28,12 @@ nouns.each do |noun|
       end
     end
 
-    if input[0] == 19690720
-      puts "noun #{noun}, verb #{verb}, result #{100 * noun + verb}"
+    next unless input[0] == 19_690_720
 
-      stop = true
-    end
+    puts "noun #{noun}, verb #{verb}, result #{100 * noun + verb}"
+
+    stop = true
   end
 
-  if stop
-    break
-  end
+  break if stop
 end
-

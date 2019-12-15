@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 text = File.open(__dir__ + '/input.txt').read
 
 input_freeze = text.chomp.split('').map(&:to_i).freeze
@@ -19,25 +21,21 @@ until input.empty?
   layers.push layer
 end
 
-total = layers.inject(Array.new(WIDE * TALL, 2)) do |image, layer|
+total = layers.each_with_object(Array.new(WIDE * TALL, 2)) do |layer, image|
   index = 0
 
   layer.each do |pixel|
-    if image[index] == 2
-      image[index] = pixel
-    end
+    image[index] = pixel if image[index] == 2
 
     index += 1
   end
-
-  image
 end
 
 TALL.times do
-  buffer = ""
+  buffer = ''
   WIDE.times do
     value = total.shift
-    buffer.concat(value == 0 ? " " : "|")
+    buffer.concat(value == 0 ? ' ' : '|')
   end
   pp buffer
 end

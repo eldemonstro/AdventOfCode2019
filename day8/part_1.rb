@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 text = File.open(__dir__ + '/input.txt').read
 
 input_freeze = text.chomp.split('').map(&:to_i).freeze
@@ -11,8 +13,8 @@ layers = []
 
 until input.empty?
   layer = []
-  WIDE.times do |i|
-    TALL.times do |i|
+  WIDE.times do |_i|
+    TALL.times do |_i|
       layer.push input.shift
     end
   end

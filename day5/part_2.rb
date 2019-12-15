@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 text = File.open(__dir__ + '/input.txt').read
 
 input = text.chomp.split(',').map(&:to_i)
@@ -102,11 +104,11 @@ until halt
         else
           input[needle_position + 2]
         end
-    if x < y
-      input[input[needle_position + 3]] = 1
-    else
-      input[input[needle_position + 3]] = 0
-    end
+    input[input[needle_position + 3]] = if x < y
+                                          1
+                                        else
+                                          0
+                                        end
     needle_position += 4
   elsif op_code == 8
     x = if !mode_1 || mode_1 == 0
@@ -119,11 +121,11 @@ until halt
         else
           input[needle_position + 2]
         end
-    if x == y
-      input[input[needle_position + 3]] = 1
-    else
-      input[input[needle_position + 3]] = 0
-    end
+    input[input[needle_position + 3]] = if x == y
+                                          1
+                                        else
+                                          0
+                                        end
     needle_position += 4
   end
 end

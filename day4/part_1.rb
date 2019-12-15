@@ -1,4 +1,6 @@
-input = "168630-718098".split('-').map(&:to_i)
+# frozen_string_literal: true
+
+input = '168630-718098'.split('-').map(&:to_i)
 
 count = 0
 

@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 text = File.open(__dir__ + '/input.txt').read
 
 input_freeze = text.chomp.split(',').map(&:to_i).freeze
 
 thrusters_calc = []
 
-43210.digits.permutation.each do |signals|
+43_210.digits.permutation.each do |signals|
   last_thurst = 0
 
   signals.each do |signal|
@@ -116,11 +118,11 @@ thrusters_calc = []
             else
               input[needle_position + 2]
             end
-        if x < y
-          input[input[needle_position + 3]] = 1
-        else
-          input[input[needle_position + 3]] = 0
-        end
+        input[input[needle_position + 3]] = if x < y
+                                              1
+                                            else
+                                              0
+                                            end
         needle_position += 4
       elsif op_code == 8
         x = if !mode_1 || mode_1 == 0
@@ -133,18 +135,17 @@ thrusters_calc = []
             else
               input[needle_position + 2]
             end
-        if x == y
-          input[input[needle_position + 3]] = 1
-        else
-          input[input[needle_position + 3]] = 0
-        end
+        input[input[needle_position + 3]] = if x == y
+                                              1
+                                            else
+                                              0
+                                            end
         needle_position += 4
       end
     end
 
     last_thurst = thruster
   end
-
 
   thrusters_calc << last_thurst
 end

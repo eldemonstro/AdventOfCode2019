@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 text = File.open(__dir__ + '/input.txt').read
 
 input = text.chomp.split(',').map(&:to_i)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 text = File.open(__dir__ + '/input.txt').read
 
 wires = text.split(/\n/)
@@ -13,7 +15,7 @@ wires.each do |wire|
     intention, distance = direction.split('', 2)
     distance = distance.to_i
 
-    until distance == 0 do
+    until distance == 0
       case intention
       when 'U'
         position[1] += 1

@@ -1,13 +1,14 @@
+# frozen_string_literal: true
+
 text = File.open(__dir__ + '/input.txt').read
 
 input_freeze = text.chomp.split(',').map(&:to_i).freeze
 
 def run_int_code(program, inputs, needle_position, relative_base)
-  while true
+  loop do
     if program[needle_position] == 99
       return [program, nil, needle_position, relative_base]
     end
-
 
     # ABCDE
     # DE = OP_CODE - 2 DIGITS
@@ -72,18 +73,18 @@ def run_int_code(program, inputs, needle_position, relative_base)
         needle_position += 3
       end
     elsif op_code == 7
-      if x < y
-        program[z_pos] = 1
-      else
-        program[z_pos] = 0
-      end
+      program[z_pos] = if x < y
+                         1
+                       else
+                         0
+                       end
       needle_position += 4
     elsif op_code == 8
-      if x == y
-        program[z_pos] = 1
-      else
-        program[z_pos] = 0
-      end
+      program[z_pos] = if x == y
+                         1
+                       else
+                         0
+                       end
       needle_position += 4
     elsif op_code == 9
       relative_base += x
@@ -100,7 +101,7 @@ relative_base = 0
 
 until done
   program, output, needle, relative_base = run_int_code(program.dup, [2], needle, relative_base)
-  if !output
+  unless output
     done = true
     break
   end

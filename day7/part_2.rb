@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 text = File.open(__dir__ + '/input.txt').read
 
 input_freeze = text.chomp.split(',').map(&:to_i).freeze
@@ -5,10 +7,8 @@ input_freeze = text.chomp.split(',').map(&:to_i).freeze
 thrusters_calc = []
 
 def run_int_code(input, signal, needle_position)
-  while true
-    if input[needle_position] == 99
-      return [input, nil, needle_position]
-    end
+  loop do
+    return [input, nil, needle_position] if input[needle_position] == 99
 
     # ABCDE
     # DE = OP_CODE - 2 DIGITS
@@ -105,11 +105,11 @@ def run_int_code(input, signal, needle_position)
           else
             input[needle_position + 2]
           end
-      if x < y
-        input[input[needle_position + 3]] = 1
-      else
-        input[input[needle_position + 3]] = 0
-      end
+      input[input[needle_position + 3]] = if x < y
+                                            1
+                                          else
+                                            0
+                                          end
       needle_position += 4
     elsif op_code == 8
       x = if !mode_1 || mode_1 == 0
@@ -122,16 +122,15 @@ def run_int_code(input, signal, needle_position)
           else
             input[needle_position + 2]
           end
-      if x == y
-        input[input[needle_position + 3]] = 1
-      else
-        input[input[needle_position + 3]] = 0
-      end
+      input[input[needle_position + 3]] = if x == y
+                                            1
+                                          else
+                                            0
+                                          end
       needle_position += 4
     end
   end
 end
-
 
 [9, 8, 7, 6, 5].permutation.each do |signals|
   needles = [0] * signals.length
@@ -144,10 +143,10 @@ end
 
   done = false
 
-  while !done
+  until done
     signals.length.times do |i|
       inputs[i], value, needle = run_int_code(inputs[i].dup, values[i], needles[i])
-      if !value
+      unless value
         done = true
         thrusters_calc.push(last_thrusters.last)
         break

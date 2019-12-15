@@ -19,9 +19,9 @@ nouns.each do |noun|
       x = input[pos_x]
       y = input[pos_y]
 
-      if op_code == 99
-        break
-      elsif op_code == 1
+      break if op_code == 99
+
+      if op_code == 1
         input[pos_result] = x + y
       elsif op_code == 2
         input[pos_result] = x * y

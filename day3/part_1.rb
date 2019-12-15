@@ -7,15 +7,14 @@ wires = text.split(/\n/)
 intersections = {}
 paths = {}
 
-wires.each do |wire|
-  directions = wire.split(',')
+def parse_wire(directions, paths, intersections)
   position = [0, 0]
 
   directions.each do |direction|
     intention, distance = direction.split('', 2)
     distance = distance.to_i
 
-    until distance == 0
+    until distance.zero?
       case intention
       when 'U'
         position[1] += 1
@@ -28,7 +27,9 @@ wires.each do |wire|
       end
 
       if paths["#{position[0]},#{position[1]}"]
-        intersections["#{position[0]},#{position[1]}"] = position[0], position[1]
+        intersections[
+          "#{position[0]},#{position[1]}"
+        ] = position[0], position[1]
       else
         paths["#{position[0]},#{position[1]}"] = true
       end
@@ -36,6 +37,12 @@ wires.each do |wire|
       distance -= 1
     end
   end
+end
+
+wires.each do |wire|
+  directions = wire.split(',')
+
+  parse_wire(directions, paths, intersections)
 end
 
 result = intersections.values.inject(1 << 64) do |closest, intersection|

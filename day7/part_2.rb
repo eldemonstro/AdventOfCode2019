@@ -1,5 +1,3 @@
-require 'pry'
-
 text = File.open(__dir__ + '/input.txt').read
 
 input_freeze = text.chomp.split(',').map(&:to_i).freeze

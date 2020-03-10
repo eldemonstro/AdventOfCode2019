@@ -7,3 +7,5 @@ result = text.split(/\n/).reduce(0) do |sum, fuel|
 end
 
 puts result
+
+["", "1"].reject(&:empty?)

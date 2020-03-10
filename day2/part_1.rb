@@ -21,4 +21,4 @@ input.each_slice(4) do |op_code, pos_x, pos_y, pos_result|
   end
 end
 
-pp input
+pp input[0]

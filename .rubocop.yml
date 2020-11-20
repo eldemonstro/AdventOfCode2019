@@ -1,0 +1,17 @@
+inherit_mode:
+  merge:
+    - Exclude
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
+
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  Exclude:
+    - 'spec/spec_helper.rb'
+    - 'bin/*'

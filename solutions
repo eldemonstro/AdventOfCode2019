@@ -1,8 +1,6 @@
 #!/bin/ruby
 # frozen_string_literal: true
 
-require 'pry'
-
 Dir["#{__dir__}/lib/day*/solver.rb"].sort.each { |file| require file }
 
 def class_exists?(class_name)
@@ -18,7 +16,7 @@ end
 
   klass = Module.const_get(class_name)
 
-  solver = klass.new("./lib/day#{day}/input.txt")
+  solver = klass.new
 
   puts "Solutions for day #{day}"
 
@@ -27,6 +25,8 @@ end
 
   print 'Part 2 result: '
   puts solver.part02
+
+  puts
 rescue NameError => e
   print "#{e.name} is not ready;"
 end

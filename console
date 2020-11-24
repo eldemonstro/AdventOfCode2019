@@ -1,0 +1,7 @@
+#!/bin/ruby
+# frozen_string_literal: true
+
+Dir["#{__dir__}/lib/day*/solver.rb"].sort.each { |file| require file }
+
+require 'pry'
+Pry.start

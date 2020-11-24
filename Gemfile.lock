@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.1)
+    awesome_print (1.8.0)
     coderay (1.1.2)
     diff-lcs (1.4.4)
     method_source (0.9.2)
@@ -45,6 +46,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   pry
   rspec
   rubocop
